@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+      name="viewport"
+    />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <link href="style.css" rel="stylesheet" />
+    <script src="main.js"></script>
+    <title>줌 과제</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="wrapper">
+        <div class="wrap">
+          <div class="inner">
+            <nav class="tabs">
+              <ul>
+                <li class="selected">
+                  <div>
+                    <a href="#">내 피드</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#popularity">인기</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#investment">투자</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#news">뉴스</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#tv">TV</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#entertainment">연예</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#sports">스포츠</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#biz">비즈</a>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <a href="#interest">관심사 선택 및 북마크</a>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div class="content_wrapper">
+          <div class="wrapper_block">
+          </div>
+          <div class="collect_wrapper">
+            <aside class="collect_sidebar">
+              <nav>
+                <ul>
+                  <li class="selected">
+                    <div>
+                      <button>
+                        <i class="nav_icon interest"></i>
+                        관심사 선택
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button>
+                        <i class="nav_icon saved"></i>
+                        저장한 콘텐츠
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+            </aside>
+            <section class="collect_container">
+              <div class="title_wrap">
+                <h2>관심사 선택</h2>
+
+                <p class="interest_notice">
+                  <i class="icon"></i>
+                  <strong>관심사를 선택</strong>해주세요! 선택한 관심사의 최신 이슈를&nbsp;
+                  <strong>내 피드에서 확인</strong>하실 수 있습니다.
+                </p>
+              </div>
+
+              <div class="interest_list">
+                <ul>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon popular"></i>
+                        인기
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon investment"></i>
+                        투자
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon politics society"></i>
+                        사회
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon economy"></i>
+                        경제
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon world"></i>
+                        국제
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon it"></i>
+                        IT/과학
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon culture"></i>
+                        문화
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon entertainment"></i>
+                        연예
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon sports"></i>
+                        스포츠
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon biz"></i>
+                        비즈
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button class="selected">
+                        <i class="icon auto"></i>
+                        자동차
+                        <span class="blind"></span>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+            <section class="collect_container">
+              <h2>저장한 콘텐츠</h2>
+              <div class="item_list">
+                <ul>
+                  <li>
+                    <div class="single_item">
+                      <div>
+                        <a href="#">
+                          <div class="thumb">
+                            <img src="#" />
+                          </div>
+                          <ul class="info">
+                            <li>TV</li>
+                            <li>출처</li>
+                          </ul>
+                          <div class="title">제목</div>
+                        </a>
+                      </div>
+
+                      <div class="item_btns item_bottom">
+                        <div>
+                          <button type="button" class="btn_bookmark clicked"></button>
+                          <button type="button" class="btn_bookmark"></button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="js/contents.js"></script>
+    <script src="js/interests.js"></script>
+  </body>
+</html>
