@@ -6,7 +6,9 @@
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "start:client": "live-server --port=3000",
-    "start:server": "json-server --watch db.json --port 8080"
+    "start:server": "json-server --watch db.json --port 8080",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "줌인터넷 프론트엔드 파트",
   "license": "ISC",
@@ -23,5 +25,5 @@
     "tabWidth": 2,
     "printWidth": 100
   },
-  "dependencies": {}
+  "homepage": "https://aldrn29.github.com/Zum-Assignment"
 }
