@@ -55,8 +55,10 @@ function getCommonData() {
             let list = [];
             const wrapperBlock = document.querySelector(".wrapper_block");
             const collectWrapper = document.querySelector(".collect_wrapper");
+            const itemList = document.querySelector(".item_list");
             wrapperBlock.innerHTML = "";
             wrapperBlock.style.display = "";
+            itemList.innerHTML = "";
             collectWrapper.style.display = "none";
 
             // 관심사 및 북마크
@@ -84,12 +86,9 @@ function getCommonData() {
                         })
                     }
 
-                    const itemList = document.querySelector(".item_list");
-                    itemList.innerHTML = "";
-                    itemList.innerHTML = list.join("");
-
                     wrapperBlock.style.display = "none";
                     collectWrapper.style.display = "";
+                    itemList.innerHTML = list.join("");
                     break;
                 default :
                     contents[activeTab].forEach(el => {
@@ -101,7 +100,16 @@ function getCommonData() {
 
             const bookmarks = document.querySelectorAll(".btn_bookmark");
             clickBookmarks(bookmarks);
-        });
+
+            // 저장한 컨텐츠 없는 경우
+            setErrorText(wrapperBlock);
+            setErrorText(itemList);
+        })
+        .catch(err => {
+            // 데이터 가져오는 것에 실패한 경우
+            const wrapperBlock = document.querySelector(".wrapper_block");
+            setErrorText(wrapperBlock);
+        })
 }
 
 function setCommonData(data, clicked) {
@@ -117,6 +125,12 @@ function setCommonData(data, clicked) {
     }
     item = item.replace('{clicked}', '');
     return item;
+}
+
+function setErrorText(obj) {
+    if (!obj.innerHTML) {
+        obj.innerHTML = "컨텐츠가 없습니다!";
+    }
 }
 
 function selectTab(tabList) {
