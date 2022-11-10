@@ -39,72 +39,75 @@ let singleItem = `
     </section>
 `;
 
+const commonData = {};
 let clickedBookmarks = [];
 let clickedInterests = [];
+
+function setContents(event) {
+    const activeTab = event.target.href.split("#")[1];
+    const contents = commonData.topicContents;
+
+    let list = [];
+    const wrapperBlock = document.querySelector(".wrapper_block");
+    const collectWrapper = document.querySelector(".collect_wrapper");
+    const itemList = document.querySelector(".item_list");
+    wrapperBlock.innerHTML = "";
+    wrapperBlock.style.display = "";
+    itemList.innerHTML = "";
+    collectWrapper.style.display = "none";
+
+    // 관심사 및 북마크
+    getInterests();
+    getBookmarks();
+    
+    switch (activeTab) {
+        case '' :
+            for (const [key, value] of Object.entries(contents)) {
+                if (clickedInterests.includes(key)) {
+                    contents[key].forEach(el => {
+                        list.push(setCommonData(el, clickedBookmarks.includes(el.link)));
+                    });
+                }
+            }
+            wrapperBlock.innerHTML = list.join("");
+            break
+        case 'interest' :
+            for (const [key, value] of Object.entries(contents)) {
+                if (key == 'popularity') continue;
+                value.forEach(el => {
+                    if (clickedBookmarks.includes(el.link)) {
+                        list.push(setCommonData(el, true));
+                    }
+                })
+            }
+
+            wrapperBlock.style.display = "none";
+            collectWrapper.style.display = "";
+            itemList.innerHTML = list.join("");
+            break;
+        default :
+            contents[activeTab].forEach(el => {
+                list.push(setCommonData(el, clickedBookmarks.includes(el.link)));
+            });
+            wrapperBlock.innerHTML = list.join("");
+            break;
+    }
+
+    const bookmarks = document.querySelectorAll(".btn_bookmark");
+    clickBookmarks(bookmarks);
+
+    // 저장한 컨텐츠 없는 경우
+    setErrorText(wrapperBlock);
+    setErrorText(itemList);
+    
+}
 
 function getCommonData() {
     const url = `http://localhost:8080/common-data`;
     fetch(url)
         .then((response) => response.json())
-        .then((data) => {
-
-            // 현재 선택된 탭
-            const activeTab = document.location.href.split("#")[1];
-            const contents = data.topicContents;
-
-            let list = [];
-            const wrapperBlock = document.querySelector(".wrapper_block");
-            const collectWrapper = document.querySelector(".collect_wrapper");
-            const itemList = document.querySelector(".item_list");
-            wrapperBlock.innerHTML = "";
-            wrapperBlock.style.display = "";
-            itemList.innerHTML = "";
-            collectWrapper.style.display = "none";
-
-            // 관심사 및 북마크
-            getInterests();
-            getBookmarks();
-
-            switch (activeTab) {
-                case '' :
-                    for (const [key, value] of Object.entries(contents)) {
-                        if (clickedInterests.includes(key)) {
-                            contents[key].forEach(el => {
-                                list.push(setCommonData(el, clickedBookmarks.includes(el.link)));
-                            });
-                        }
-                    }
-                    wrapperBlock.innerHTML = list.join("");
-                    break
-                case 'interest' :
-                    for (const [key, value] of Object.entries(contents)) {
-                        if (key == 'popularity') continue;
-                        value.forEach(el => {
-                            if (clickedBookmarks.includes(el.link)) {
-                                list.push(setCommonData(el, true));
-                            }
-                        })
-                    }
-
-                    wrapperBlock.style.display = "none";
-                    collectWrapper.style.display = "";
-                    itemList.innerHTML = list.join("");
-                    break;
-                default :
-                    contents[activeTab].forEach(el => {
-                        list.push(setCommonData(el, clickedBookmarks.includes(el.link)));
-                    });
-                    wrapperBlock.innerHTML = list.join("");
-                    break;
-            }
-
-            const bookmarks = document.querySelectorAll(".btn_bookmark");
-            clickBookmarks(bookmarks);
-
-            // 저장한 컨텐츠 없는 경우
-            setErrorText(wrapperBlock);
-            setErrorText(itemList);
-        })
+        .then((data) => Object.assign(commonData, data))
+        .then(() => setContents())
         .catch(err => {
             // 데이터 가져오는 것에 실패한 경우
             const wrapperBlock = document.querySelector(".wrapper_block");
@@ -182,7 +185,8 @@ function clickBookmarks(bookmarks) {
 getCommonData();
 
 const tabs = document.querySelector(".tabs");
-tabs.addEventListener("click", getCommonData);
-
+tabs.addEventListener("click", function(event) {
+    setContents(event);
+});
 const tabList = tabs.querySelectorAll("li");
 selectTab(tabList);
