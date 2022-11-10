@@ -6,15 +6,15 @@
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "start:client": "live-server --port=3000",
-    "start:server": "json-server --watch db.json --port 8080",
+    "start:server": "json-server --watch db.json --port 8080"
   },
   "author": "줌인터넷 프론트엔드 파트",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^7.1.0",
-    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint": "^8.27.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.26.0",
     "json-server": "^0.17.0",
     "live-server": "1.2.1"
   },
@@ -22,6 +22,5 @@
     "useTabs": false,
     "tabWidth": 2,
     "printWidth": 100
-  },
-  "homepage": "https://aldrn29.github.com/Zum-Assignment",
+  }
 }
