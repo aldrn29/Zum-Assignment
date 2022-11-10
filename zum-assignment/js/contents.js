@@ -43,11 +43,9 @@ const commonData = {};
 let clickedBookmarks = [];
 let clickedInterests = [];
 
-function setContents(event) {
-    const activeTab = event.target.href.split("#")[1];
-    const contents = commonData.topicContents;
-
+function setContents(activeTab) {
     let list = [];
+    const contents = commonData.topicContents;
     const wrapperBlock = document.querySelector(".wrapper_block");
     const collectWrapper = document.querySelector(".collect_wrapper");
     const itemList = document.querySelector(".item_list");
@@ -107,7 +105,9 @@ function getCommonData() {
     fetch(url)
         .then((response) => response.json())
         .then((data) => Object.assign(commonData, data))
-        .then(() => setContents())
+        .then(() =>  {
+            setContents(document.location.href.split("#")[1])
+        })
         .catch(err => {
             // 데이터 가져오는 것에 실패한 경우
             const wrapperBlock = document.querySelector(".wrapper_block");
@@ -134,6 +134,17 @@ function setErrorText(obj) {
     if (!obj.innerHTML) {
         obj.innerHTML = "컨텐츠가 없습니다!";
     }
+}
+
+function getActiveTab(tabList) {
+    const activeTab = document.location.href.split("#")[1]
+    tabList.forEach(tab => {
+        if (activeTab == tab.querySelector("a").href.split("#")[1]) {
+            tab.classList.add("selected");
+        } else {
+            tab.classList.remove("selected");
+        }
+    })   
 }
 
 function selectTab(tabList) {
@@ -186,7 +197,8 @@ getCommonData();
 
 const tabs = document.querySelector(".tabs");
 tabs.addEventListener("click", function(event) {
-    setContents(event);
+    setContents(event.target.href.split("#")[1]);
 });
 const tabList = tabs.querySelectorAll("li");
+getActiveTab(tabList);
 selectTab(tabList);
