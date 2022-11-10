@@ -12,6 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^7.1.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
     "json-server": "^0.17.0",
     "live-server": "1.2.1"
   },
