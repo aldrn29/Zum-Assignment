@@ -1,7 +1,7 @@
 let singleItemSmall = `
     <section class="news_single_item_small">
         <div>
-            <a href={link}>
+            <a href={link} target="_blank">
             <div class="thumb">
                 <img src={thumb} />
             </div>
@@ -21,7 +21,7 @@ let singleItemSmall = `
 let singleItem = `
     <section class="news_single_item">
         <div>
-            <a href={link}>
+            <a href={link} target="_blank">
                 <div class="thumb">
                     <img src={thumb} />
                 </div>
@@ -40,6 +40,7 @@ let singleItem = `
 `;
 
 let clickedBookmarks = [];
+let clickedInterests = [];
 
 function getCommonData() {
     const url = `http://localhost:8080/common-data`;
@@ -47,21 +48,33 @@ function getCommonData() {
         .then((response) => response.json())
         .then((data) => {
 
-            const list = [];
-
             // 현재 선택된 탭
-            let activeTab = document.location.href.split("#")[1];
-            let contents = data.topicContents[activeTab];
+            const activeTab = document.location.href.split("#")[1];
+            const contents = data.topicContents;
 
-            // 북마크
-            const savedBookmarks = localStorage.getItem("bookmarks");
-            getBookmarks(savedBookmarks);
+            let list = [];
+            const wrapperBlock = document.querySelector(".wrapper_block");
+            const collectWrapper = document.querySelector(".collect_wrapper");
+            wrapperBlock.innerHTML = "";
+            wrapperBlock.style.display = "";
+            collectWrapper.style.display = "none";
+
+            // 관심사 및 북마크
+            getInterests();
+            getBookmarks();
 
             switch (activeTab) {
                 case '' :
+                    for (const [key, value] of Object.entries(contents)) {
+                        if (clickedInterests.includes(key)) {
+                            contents[key].forEach(el => {
+                                list.push(setCommonData(el, clickedBookmarks.includes(el.link)));
+                            });
+                        }
+                    }
+                    wrapperBlock.innerHTML = list.join("");
                     break
                 case 'interest' :
-                    contents = data.topicContents;
                     for (const [key, value] of Object.entries(contents)) {
                         if (key == 'popularity') continue;
                         value.forEach(el => {
@@ -70,20 +83,24 @@ function getCommonData() {
                             }
                         })
                     }
-                    break
+
+                    const itemList = document.querySelector(".item_list");
+                    itemList.innerHTML = "";
+                    itemList.innerHTML = list.join("");
+
+                    wrapperBlock.style.display = "none";
+                    collectWrapper.style.display = "";
+                    break;
                 default :
-                    contents.forEach(el => {
+                    contents[activeTab].forEach(el => {
                         list.push(setCommonData(el, clickedBookmarks.includes(el.link)));
                     });
-                    break
+                    wrapperBlock.innerHTML = list.join("");
+                    break;
             }
-            
-            const wrapperBlock = document.querySelector(".wrapper_block");
-            wrapperBlock.innerHTML = '';
-            wrapperBlock.innerHTML = list.join('');
 
             const bookmarks = document.querySelectorAll(".btn_bookmark");
-            clickBookmark(bookmarks);
+            clickBookmarks(bookmarks);
         });
 }
 
@@ -113,14 +130,25 @@ function selectTab(tabList) {
     })   
 }
 
-function getBookmarks(bookmarks) {
-    if (bookmarks !== null) {
-        const parseBookmarks = JSON.parse(bookmarks);
+function getInterests() {
+    const savedInterests = localStorage.getItem("interests");
+
+    if (savedInterests !== null) {
+        const parseInterests = JSON.parse(savedInterests);
+        clickedInterests = parseInterests;
+    } 
+}
+
+function getBookmarks() {
+    const savedBookmarks = localStorage.getItem("bookmarks")
+
+    if (savedBookmarks !== null) {
+        const parseBookmarks = JSON.parse(savedBookmarks);
         clickedBookmarks = parseBookmarks;
     } 
 }
 
-function clickBookmark(bookmarks) {
+function clickBookmarks(bookmarks) {
     bookmarks.forEach(bookmark => {
         bookmark.addEventListener("click", function() {
             bookmark.classList.toggle("clicked");
@@ -136,6 +164,8 @@ function clickBookmark(bookmarks) {
         });
     })
 }
+
+getCommonData();
 
 const tabs = document.querySelector(".tabs");
 tabs.addEventListener("click", getCommonData);
